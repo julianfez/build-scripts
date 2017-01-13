@@ -309,7 +309,8 @@ build_configure_default() {
 build_configure_cmake() {
 	mkdir -p "$PKG_BUILD_DIR"
 	cd "$PKG_BUILD_DIR"
-	eval cmake												\
+	eval "$CMAKE_ENVS"										\
+		cmake												\
 		-DCMAKE_BUILD_TYPE=Release							\
 		-DCMAKE_INSTALL_PREFIX="'$INSTALL_PREFIX'"			\
 		-DCMAKE_EXE_LINKER_FLAGS="'$EXTRA_LDFLAGS'"			\

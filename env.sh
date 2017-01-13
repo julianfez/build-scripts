@@ -83,6 +83,7 @@ env_init() {
 		EXTRA_CFLAGS="$EXTRA_CFLAGS -isystem $MACPORTS_PREFIX/include"
 		EXTRA_LDFLAGS="$EXTRA_LDFLAGS -L$MACPORTS_PREFIX/lib -Wl,-rpath,$MACPORTS_PREFIX/lib"
 	fi
+	EXTRA_CXXFLAGS="$EXTRA_CFLAGS"
 	export PKG_CONFIG_PATH
 
 	if ! running_in_make || [ -n "$NJOBS" ]; then
@@ -142,6 +143,7 @@ env_init_pkg() {
 	if [ -z "$CONFIGURE_VARS" ]; then
 		CONFIGURE_VARS='CPPFLAGS="$EXTRA_CPPFLAGS"		\
 						CFLAGS="$EXTRA_CFLAGS"			\
+						CXXFLAGS="$EXTRA_CXXFLAGS"		\
 						LDFLAGS="$EXTRA_LDFLAGS"		\
 		'
 	fi
@@ -313,6 +315,7 @@ build_configure_cmake() {
 		-DCMAKE_EXE_LINKER_FLAGS="'$EXTRA_LDFLAGS'"			\
 		-DCMAKE_SHARED_LINKER_FLAGS="'$EXTRA_LDFLAGS'"		\
 		-DCMAKE_C_FLAGS="'$EXTRA_CFLAGS'"					\
+		-DCMAKE_CXX_FLAGS="'$EXTRA_CXXFLAGS'"				\
 		-DCMAKE_BUILD_WITH_INSTALL_RPATH=on					\
 		-DCMAKE_MACOSX_RPATH=on								\
 		"$CMAKE_ARGS"										\
@@ -326,6 +329,7 @@ build_compile_make() {
 
 	cd "$PKG_BUILD_DIR"
 	eval CFLAGS="'$EXTRA_CFLAGS'" \
+		CXXFLAGS="'$EXTRA_CXXFLAGS'" \
 		CPPFLAGS="'$EXTRA_CPPFLAGS'" \
 		LDFLAGS="'$EXTRA_LDFLAGS'" \
 		"$envs" \
